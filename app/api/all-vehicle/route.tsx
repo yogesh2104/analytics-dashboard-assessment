@@ -83,7 +83,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
         Papa.parse(file, {
         header: true,
         complete: (results) => {
-            vehicle = results.data;
+            vehicle = results.data.slice(0,35000);
             totalItems = results.data.length;
         },
         error: (error: any) => {

@@ -243,6 +243,7 @@ export function DashboardVehicleTable() {
         </CardHeader>
         <CardContent>
           {loading && <p className="text-red-700">It s take some time becasue its parse all csv data. then return all data. I have implemented pagination but its not work got some error.</p>}
+          {loading||<p className="text-yellow-500">This is show only 35000 vehicle data because vercel allow only 19MB somthing and our csv file length is 26.58MB</p>}
           <Table className="text-xs border-t border-l border-b rounded-lg sm:text-sm lg:text-sm ">
             
             <TableHeader >
