@@ -5,6 +5,7 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table"
 import {
@@ -200,24 +201,21 @@ const columns: ColumnDef<vehicleType>[]= [
 export function DashboardVehicleTable() {
 
   const [data, setData] = React.useState([]);
-  const [pagination, setPagination] = React.useState({ currentPage: 1, totalPages: 1, limit: 20 , totalVehicle:0 });
+  const [pagination, setPagination] = React.useState({ totalVehicle:0 });
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetchData(pagination.currentPage);
-  }, [pagination.currentPage]);
+    fetchData();
+  }, []);
 
-  const fetchData = async (page:number) => {
+  const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/all-vehicle?page=${page}&limit=${pagination.limit}`);
+      const response = await fetch(`/api/all-vehicle`,{ cache: 'force-cache'});
       const result = await response.json();
       setData(result.data || []);
       setPagination((prev) => ({
-        ...prev,
-        totalPages: result.pagination.totalPages,
-        currentPage: result.pagination.currentPage,
-        totalVehicle:result.pagination.totalItems
+        totalVehicle:result.total
       }));
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -230,7 +228,8 @@ export function DashboardVehicleTable() {
   const table = useReactTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel()
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   })
 
   const columnCount = table.getAllColumns().length;
@@ -243,6 +242,7 @@ export function DashboardVehicleTable() {
           <CardTitle>Vehicle Model data</CardTitle>
         </CardHeader>
         <CardContent>
+          {loading && <p className="text-red-700">It s take some time becasue its parse all csv data. then return all data. I have implemented pagination but its not work got some error.</p>}
           <Table className="text-xs border-t border-l border-b rounded-lg sm:text-sm lg:text-sm ">
             
             <TableHeader >
@@ -313,17 +313,17 @@ export function DashboardVehicleTable() {
             <div className="space-x-2">
               <Button
                 variant="outline"
-                size="lg"
-                onClick={() => setPagination((prev) => ({ ...prev, currentPage: prev.currentPage - 1 }))}
-                disabled={pagination.currentPage === 1}
+                size="sm"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
               >
                 Previous
               </Button>
               <Button
                 variant="outline"
-                size="lg"
-                onClick={() => setPagination((prev) => ({ ...prev, currentPage: prev.currentPage + 1 }))}
-                disabled={pagination.currentPage === pagination.totalPages}
+                size="sm"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
               >
                 Next
               </Button>
