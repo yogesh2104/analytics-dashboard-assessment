@@ -15,55 +15,55 @@ const userData = {
   }
 }
 
-// async function getVehicleMakerandModel() {
-//   try {
-//     const response = await (await fetch(`${process.env.BASE_URL}/api/vehicle-model-make`, {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       cache: 'force-cache'
-//     })).json();
-//     return response;
-//   } catch (error) {
-//     throw new Error("Failed to fetch");
-//   }
-// }
+async function getVehicleMakerandModel() {
+  try {
+    const response = await (await fetch(`${process.env.BASE_URL}/api/vehicle-model-make`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cache: 'force-cache'
+    })).json();
+    return response;
+  } catch (error) {
+    throw new Error("Failed to fetch");
+  }
+}
 
-// async function gettrends() {
-//   try {
-//     const response = await (await fetch(`${process.env.BASE_URL}/api/predict-vehicle-trends`, {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       cache: 'force-cache'
-//     })).json();
-//     return response;
-//   } catch (error) {
-//     throw new Error("Failed to fetch");
-//   }
-// }
+async function gettrends() {
+  try {
+    const response = await (await fetch(`${process.env.BASE_URL}/api/predict-vehicle-trends`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cache: 'force-cache'
+    })).json();
+    return response;
+  } catch (error) {
+    throw new Error("Failed to fetch");
+  }
+}
 
-// async function getmetrics() {
-//   try {
-//     const response = await (await fetch(`${process.env.BASE_URL}/api/vehicle-metrics`, {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       cache: 'force-cache'
-//     })).json();
-//     return response;
-//   } catch (error) {
-//     throw new Error("Failed to fetch");
-//   }
-// }
+async function getmetrics() {
+  try {
+    const response = await (await fetch(`${process.env.BASE_URL}/api/vehicle-metrics`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cache: 'force-cache'
+    })).json();
+    return response;
+  } catch (error) {
+    throw new Error("Failed to fetch");
+  }
+}
 
 export default async function Page() {
-  // const data=await getVehicleMakerandModel()
-  // const trendData= await gettrends()
-  // const matricsData = await getmetrics()
+  const data=await getVehicleMakerandModel()
+  const trendData= await gettrends()
+  const matricsData = await getmetrics()
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -79,11 +79,11 @@ export default async function Page() {
         </header>
 
         <div className="space-y-3 px-3">
-          {/* <DashboardHeader data={matricsData?.data || {}}/>
+          <DashboardHeader data={matricsData?.data || {}}/>
           <DashboardMakerChart chartData={data?.data?.formatedMaker || []}/>
           <DashboardTrendChart chartData={trendData?.data || []}/>
           <DashboardModelChart chartData={data?.data?.formatedModel || []}/>
-          <DashboardVehicleTable />   */}
+          <DashboardVehicleTable />  
         </div>
 
       </SidebarInset>
